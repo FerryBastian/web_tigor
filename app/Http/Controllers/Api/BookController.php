@@ -27,20 +27,34 @@ class BookController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'description' => 'required|string',
-            'cover_url' => 'nullable|url',
-        ]);
+        try {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'author' => 'required|string|max:255',
+                'description' => 'required|string',
+                'cover_url' => 'nullable|url',
+            ]);
 
-        $book = Book::create($validated);
+            $book = Book::create($validated);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Book created successfully.',
-            'data' => $book
-        ], 201);
+            return response()->json([
+                'success' => true,
+                'message' => 'Book created successfully.',
+                'data' => $book
+            ], 201);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation failed.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create book.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
@@ -68,29 +82,43 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id): JsonResponse
     {
-        $book = Book::find($id);
+        try {
+            $book = Book::find($id);
 
-        if (!$book) {
+            if (!$book) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Book not found.'
+                ], 404);
+            }
+
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'author' => 'required|string|max:255',
+                'description' => 'required|string',
+                'cover_url' => 'nullable|url',
+            ]);
+
+            $book->update($validated);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Book updated successfully.',
+                'data' => $book
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'message' => 'Book not found.'
-            ], 404);
+                'message' => 'Validation failed.',
+                'errors' => $e->errors()
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update book.',
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'description' => 'required|string',
-            'cover_url' => 'nullable|url',
-        ]);
-
-        $book->update($validated);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Book updated successfully.',
-            'data' => $book
-        ]);
     }
 
     /**
