@@ -1,59 +1,473 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Online Library Management System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem manajemen perpustakaan online yang dibangun dengan Laravel 12. Aplikasi ini menyediakan fitur untuk mengelola koleksi buku dengan antarmuka web dan REST API.
 
-## About Laravel
+## Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Manajemen Buku**: CRUD lengkap untuk koleksi buku
+- **Role-based Access Control**: Sistem akses berdasarkan role (Guest dan Admin)
+- **Google Books API Integration**: Import buku populer dari Google Books API
+- **REST API**: Endpoint API lengkap dengan autentikasi Sanctum
+- **Responsive Design**: Antarmuka yang responsif menggunakan TailwindCSS
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Teknologi yang Digunakan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Framework**: Laravel 12
+- **Authentication**: Laravel Breeze + Sanctum
+- **Styling**: TailwindCSS
+- **Database**: MySQL
+- **API Authentication**: Laravel Sanctum
 
-## Learning Laravel
+## Instalasi dan Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Prerequisites
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- PHP >= 8.2
+- Composer
+- MySQL
+- Node.js dan NPM
 
-## Laravel Sponsors
+### Langkah Instalasi
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+1. **Clone repository**
+   ```bash
+   git clone <repository-url>
+   cd web_tigor
+   ```
 
-### Premium Partners
+2. **Install dependencies**
+   ```bash
+   composer install
+   npm install
+   ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+3. **Setup environment**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-## Contributing
+4. **Konfigurasi database**
+   
+   Edit file `.env` dan sesuaikan konfigurasi database:
+   ```env
+   DB_CONNECTION=mysql
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   DB_DATABASE=library_app
+   DB_USERNAME=root
+   DB_PASSWORD=
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+5. **Jalankan migration dan seeder**
+   ```bash
+   php artisan migrate:fresh --seed
+   ```
 
-## Code of Conduct
+6. **Build assets**
+   ```bash
+   npm run build
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+7. **Jalankan server**
+   ```bash
+   php artisan serve
+   ```
 
-## Security Vulnerabilities
+   Aplikasi akan berjalan di `http://localhost:8000`
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Default Admin Credentials
+
+Setelah menjalankan seeder, Anda dapat login dengan:
+- **Email**: `admin@example.com`
+- **Password**: `password` (default dari factory)
+
+## Role dan Akses
+
+### Guest (Tidak Login)
+
+Guest dapat mengakses:
+- ✅ Melihat daftar buku di halaman home (`/`)
+- ✅ Melihat detail buku (`/book/{id}`)
+- ✅ Melihat halaman About (`/about`)
+
+### Admin
+
+Admin dapat mengakses semua fitur Guest, plus:
+- ✅ Login ke dashboard admin (`/admin/dashboard`)
+- ✅ Menambah, mengedit, dan menghapus buku (`/admin/books`)
+- ✅ Mengedit informasi About (`/admin/about`)
+- ✅ Import buku dari Google Books API
+- ✅ Mengakses semua endpoint API dengan autentikasi
+
+## Struktur Halaman
+
+### Halaman Public (Guest)
+
+- **`/`** - Home: Menampilkan daftar semua buku
+- **`/book/{id}`** - Detail Buku: Menampilkan informasi lengkap buku
+- **`/about`** - About: Menampilkan informasi perpustakaan
+
+### Halaman Admin
+
+- **`/admin/dashboard`** - Dashboard: Statistik dan quick actions
+- **`/admin/books`** - Manajemen Buku: CRUD buku
+- **`/admin/about`** - Edit About: Form edit informasi perpustakaan
+
+## REST API Documentation
+
+Base URL: `http://localhost:8000/api`
+
+### Authentication
+
+API menggunakan Laravel Sanctum untuk autentikasi. Untuk mengakses endpoint yang memerlukan autentikasi, Anda perlu:
+
+1. Login sebagai user melalui web interface
+2. Generate token menggunakan:
+   ```php
+   $user = User::find(1);
+   $token = $user->createToken('api-token')->plainTextToken;
+   ```
+3. Gunakan token di header request:
+   ```
+   Authorization: Bearer {token}
+   ```
+
+### Public Endpoints (Tidak Perlu Autentikasi)
+
+#### GET /api/books
+
+Mendapatkan daftar semua buku.
+
+**Request:**
+```http
+GET /api/books
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "The Great Gatsby",
+      "author": "F. Scott Fitzgerald",
+      "description": "A classic American novel...",
+      "cover_url": "https://...",
+      "created_at": "2025-11-08T03:50:14.000000Z",
+      "updated_at": "2025-11-08T03:50:14.000000Z"
+    }
+  ]
+}
+```
+
+#### GET /api/books/{id}
+
+Mendapatkan detail buku berdasarkan ID.
+
+**Request:**
+```http
+GET /api/books/1
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "title": "The Great Gatsby",
+    "author": "F. Scott Fitzgerald",
+    "description": "A classic American novel...",
+    "cover_url": "https://...",
+    "created_at": "2025-11-08T03:50:14.000000Z",
+    "updated_at": "2025-11-08T03:50:14.000000Z"
+  }
+}
+```
+
+**Error Response (404):**
+```json
+{
+  "success": false,
+  "message": "Book not found."
+}
+```
+
+### Protected Endpoints (Admin Only - Perlu Autentikasi)
+
+#### POST /api/books
+
+Menambahkan buku baru. **Hanya admin yang dapat mengakses.**
+
+**Request:**
+```http
+POST /api/books
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "title": "Book Title",
+  "author": "Author Name",
+  "description": "Book description here...",
+  "cover_url": "https://example.com/cover.jpg"
+}
+```
+
+**Response (201):**
+```json
+{
+  "success": true,
+  "message": "Book created successfully.",
+  "data": {
+    "id": 6,
+    "title": "Book Title",
+    "author": "Author Name",
+    "description": "Book description here...",
+    "cover_url": "https://example.com/cover.jpg",
+    "created_at": "2025-11-08T10:00:00.000000Z",
+    "updated_at": "2025-11-08T10:00:00.000000Z"
+  }
+}
+```
+
+**Validation Error (422):**
+```json
+{
+  "message": "The title field is required. (and 1 more error)",
+  "errors": {
+    "title": ["The title field is required."],
+    "author": ["The author field is required."]
+  }
+}
+```
+
+#### PUT /api/books/{id}
+
+Mengupdate buku yang sudah ada. **Hanya admin yang dapat mengakses.**
+
+**Request:**
+```http
+PUT /api/books/1
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "title": "Updated Book Title",
+  "author": "Updated Author Name",
+  "description": "Updated description...",
+  "cover_url": "https://example.com/new-cover.jpg"
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Book updated successfully.",
+  "data": {
+    "id": 1,
+    "title": "Updated Book Title",
+    "author": "Updated Author Name",
+    "description": "Updated description...",
+    "cover_url": "https://example.com/new-cover.jpg",
+    "created_at": "2025-11-08T03:50:14.000000Z",
+    "updated_at": "2025-11-08T10:00:00.000000Z"
+  }
+}
+```
+
+#### DELETE /api/books/{id}
+
+Menghapus buku. **Hanya admin yang dapat mengakses.**
+
+**Request:**
+```http
+DELETE /api/books/1
+Authorization: Bearer {token}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Book deleted successfully."
+}
+```
+
+### Error Responses
+
+#### 401 Unauthorized
+```json
+{
+  "message": "Unauthenticated."
+}
+```
+
+#### 403 Forbidden
+```json
+{
+  "success": false,
+  "message": "Unauthorized. Admin access required."
+}
+```
+
+#### 404 Not Found
+```json
+{
+  "success": false,
+  "message": "Book not found."
+}
+```
+
+#### 422 Validation Error
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "field_name": ["Error message"]
+  }
+}
+```
+
+## Contoh Penggunaan API
+
+### Menggunakan cURL
+
+**Get semua buku:**
+```bash
+curl -X GET http://localhost:8000/api/books
+```
+
+**Get detail buku:**
+```bash
+curl -X GET http://localhost:8000/api/books/1
+```
+
+**Tambah buku (perlu token):**
+```bash
+curl -X POST http://localhost:8000/api/books \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "New Book",
+    "author": "Author Name",
+    "description": "Book description",
+    "cover_url": "https://example.com/cover.jpg"
+  }'
+```
+
+**Update buku (perlu token):**
+```bash
+curl -X PUT http://localhost:8000/api/books/1 \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Updated Title",
+    "author": "Updated Author",
+    "description": "Updated description",
+    "cover_url": "https://example.com/new-cover.jpg"
+  }'
+```
+
+**Hapus buku (perlu token):**
+```bash
+curl -X DELETE http://localhost:8000/api/books/1 \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+
+### Menggunakan JavaScript (Fetch API)
+
+```javascript
+// Get semua buku
+fetch('http://localhost:8000/api/books')
+  .then(response => response.json())
+  .then(data => console.log(data));
+
+// Tambah buku
+fetch('http://localhost:8000/api/books', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_TOKEN_HERE',
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    title: 'New Book',
+    author: 'Author Name',
+    description: 'Book description',
+    cover_url: 'https://example.com/cover.jpg'
+  })
+})
+.then(response => response.json())
+.then(data => console.log(data));
+```
+
+## Fitur Tambahan
+
+### Google Books API Integration
+
+Admin dapat mengimpor buku populer dari Google Books API melalui dashboard:
+1. Login sebagai admin
+2. Akses `/admin/dashboard`
+3. Klik tombol "Import from Google Books"
+4. Sistem akan mengimpor 5-10 buku populer secara otomatis
+
+## Database Structure
+
+### Tabel `users`
+- `id` - Primary key
+- `name` - Nama user
+- `email` - Email user
+- `password` - Password (hashed)
+- `role` - Role user (guest/admin)
+- `timestamps`
+
+### Tabel `books`
+- `id` - Primary key
+- `title` - Judul buku
+- `author` - Penulis buku
+- `description` - Deskripsi buku
+- `cover_url` - URL cover buku
+- `timestamps`
+
+### Tabel `about`
+- `id` - Primary key
+- `name` - Nama perpustakaan/admin
+- `bio` - Bio/deskripsi
+- `profile_image` - URL gambar profil
+- `contact_info` - Informasi kontak
+- `timestamps`
+
+## Development
+
+### Menjalankan Development Server
+
+```bash
+php artisan serve
+```
+
+### Menjalankan dengan Hot Reload (Vite)
+
+```bash
+npm run dev
+```
+
+Di terminal lain:
+```bash
+php artisan serve
+```
+
+### Testing
+
+```bash
+php artisan test
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT License
+
+## Kontribusi
+
+Silakan buat issue atau pull request jika ingin berkontribusi pada proyek ini.
