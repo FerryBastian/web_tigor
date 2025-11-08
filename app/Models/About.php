@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class About extends Model
 {
+
+    protected $table = 'about'; // <--- tambahkan ini
+
     protected $fillable = [
         'name',
         'bio',
