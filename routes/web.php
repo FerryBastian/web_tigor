@@ -15,6 +15,7 @@ Route::get('/about', [AboutController::class, 'show'])->name('about');
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/import-google-books', [DashboardController::class, 'importGoogleBooks'])->name('import.google-books');
     
     Route::resource('books', BookController::class);
     
