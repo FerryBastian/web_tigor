@@ -1,6 +1,11 @@
 <x-guest-layout>
     <div class="flex items-center justify-center min-h-[80vh] bg-gray-50 px-4">
         <div class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+            <div class="mb-4">
+                <a href="{{ url()->previous() === url()->current() ? route('home') : url()->previous() }}" class="inline-flex items-center text-xs text-gray-500 hover:text-indigo-600 transition">
+                    ← Kembali ke halaman sebelumnya
+                </a>
+            </div>
             <div class="mb-6 text-center">
                 <h1 class="text-3xl font-extrabold text-gray-900">Masuk Ke tampilan admin</h1>
                 <p class="mt-2 text-sm text-gray-600">Please enter your details.</p>
