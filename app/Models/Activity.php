@@ -5,21 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Activity extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'author',
         'description',
-        'cover_url',
-        'preview_link',
-        'category_id',
+        'image_path',
     ];
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
-    }
 }
+

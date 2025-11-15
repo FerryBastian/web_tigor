@@ -26,6 +26,10 @@ class AboutController extends Controller
             'bio' => 'required|string',
             'profile_image' => 'nullable|url',
             'contact_info' => 'nullable|string',
+            'history' => 'required|string',
+            'bank_account' => 'required|string|max:255',
+            'phone_number' => 'required|string|max:50',
+            'owner_name' => 'required|string|max:255',
         ]);
 
         $about = About::first();

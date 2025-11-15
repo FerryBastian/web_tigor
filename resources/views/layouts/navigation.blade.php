@@ -9,25 +9,43 @@
                     <a href="{{ auth()->user()->role === 'admin' ? route('admin.dashboard') : route('home') }}"
                         class="flex items-center gap-2">
                         <x-application-logo class="block h-9 w-auto fill-current text-blue-600" />
-                        <span class="font-bold text-lg text-blue-700">Online Library</span>
+                        <span class="font-bold text-lg text-blue-700">Taman Bacaan Masyarakat</span>
                     </a>
                 </div>
 
                 <!-- Desktop Navigation -->
                 <div class="hidden sm:flex sm:space-x-8">
                     @if(auth()->user()->role === 'admin')
-                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
                         <x-nav-link :href="route('admin.books.index')" :active="request()->routeIs('admin.books.*')">
-                            {{ __('Books') }}
+                            Kelola Buku
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.shelf-books.index')" :active="request()->routeIs('admin.shelf-books.*')">
+                            Rak Buku
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
+                            Kelola Kategori
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.activities.index')" :active="request()->routeIs('admin.activities.*')">
+                            Kelola Kegiatan
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.about.edit')" :active="request()->routeIs('admin.about.*')">
+                            Edit Halaman Tentang
                         </x-nav-link>
                     @else
                         <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Home') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                            Buku
+                        </x-nav-link>
+                        <x-nav-link :href="route('activities.index')" :active="request()->routeIs('activities.index')">
+                            Kegiatan
+                        </x-nav-link>
                         <x-nav-link :href="route('about')" :active="request()->routeIs('about')">
-                            {{ __('About') }}
+                            Tentang
                         </x-nav-link>
                     @endif
                 </div>
@@ -83,18 +101,36 @@
     <div :class="{'block': open, 'hidden': !open}" class="sm:hidden bg-white border-t border-gray-200">
         <div class="py-4 px-4 space-y-2">
             @if(auth()->user()->role === 'admin')
-                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                     {{ __('Dashboard') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('admin.books.index')" :active="request()->routeIs('admin.books.*')">
-                    {{ __('Books') }}
+                    Kelola Buku
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.shelf-books.index')" :active="request()->routeIs('admin.shelf-books.*')">
+                    Rak Buku
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.categories.index')" :active="request()->routeIs('admin.categories.*')">
+                    Kelola Kategori
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.activities.index')" :active="request()->routeIs('admin.activities.*')">
+                    Kelola Kegiatan
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.about.edit')" :active="request()->routeIs('admin.about.*')">
+                    Edit Halaman Tentang
                 </x-responsive-nav-link>
             @else
                 <x-responsive-nav-link :href="route('home')" :active="request()->routeIs('home')">
                     {{ __('Home') }}
                 </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
+                    Buku
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('activities.index')" :active="request()->routeIs('activities.index')">
+                    Kegiatan
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('about')" :active="request()->routeIs('about')">
-                    {{ __('About') }}
+                    Tentang
                 </x-responsive-nav-link>
             @endif
         </div>

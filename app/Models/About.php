@@ -14,5 +14,9 @@ class About extends Model
         'bio',
         'profile_image',
         'contact_info',
+        'history',
+        'bank_account',
+        'phone_number',
+        'owner_name',
     ];
 }

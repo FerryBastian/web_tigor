@@ -25,15 +25,15 @@
         <!-- Page Heading -->
         @isset($header)
             <div class="bg-gradient-to-r from-blue-50 to-blue-100 border-b border-blue-200 shadow-sm">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <h1 class="text-2xl font-semibold text-blue-800">{{ $header }}</h1>
+                <div class="max-w-7xl mx-auto py-4 px-4 sm:py-6 sm:px-6 lg:px-8">
+                    <h1 class="text-xl sm:text-2xl font-semibold text-blue-800">{{ $header }}</h1>
                 </div>
             </div>
         @endisset
 
         <!-- Page Content -->
-        <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
-            <div class="bg-white rounded-xl shadow-sm p-6">
+        <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6">
+            <div class="bg-white rounded-xl shadow-sm p-4 sm:p-6">
                 {{ $slot }}
             </div>
         </main>

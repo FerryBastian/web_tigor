@@ -16,33 +16,62 @@
                         <!-- Title -->
                         <div class="mb-4">
                             <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title', $book->title)" required autofocus />
+                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title"
+                                :value="old('title', $book->title)" required autofocus />
                             <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
 
                         <!-- Author -->
                         <div class="mb-4">
                             <x-input-label for="author" :value="__('Author')" />
-                            <x-text-input id="author" class="block mt-1 w-full" type="text" name="author" :value="old('author', $book->author)" required />
+                            <x-text-input id="author" class="block mt-1 w-full" type="text" name="author"
+                                :value="old('author', $book->author)" required />
                             <x-input-error :messages="$errors->get('author')" class="mt-2" />
                         </div>
 
                         <!-- Description -->
                         <div class="mb-4">
                             <x-input-label for="description" :value="__('Description')" />
-                            <textarea id="description" name="description" rows="5" class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>{{ old('description', $book->description) }}</textarea>
+                            <textarea id="description" name="description" rows="5"
+                                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
+                                required>{{ old('description', $book->description) }}</textarea>
                             <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                        </div>
+
+                        <!-- Category -->
+                        <div class="mb-4">
+                            <x-input-label for="category_id" :value="__('Category')" />
+                            <select id="category_id" name="category_id"
+                                class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm" required>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}" {{ old('category_id', $book->category_id) == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('category_id')" class="mt-2" />
                         </div>
 
                         <!-- Cover URL -->
                         <div class="mb-4">
                             <x-input-label for="cover_url" :value="__('Cover URL (optional)')" />
-                            <x-text-input id="cover_url" class="block mt-1 w-full" type="url" name="cover_url" :value="old('cover_url', $book->cover_url)" />
+                            <x-text-input id="cover_url" class="block mt-1 w-full" type="url" name="cover_url"
+                                :value="old('cover_url', $book->cover_url)" />
                             <x-input-error :messages="$errors->get('cover_url')" class="mt-2" />
                         </div>
 
+
+                        <!-- Preview Link -->
+                        <div class="mb-4">
+                            <x-input-label for="preview_link" :value="__('Preview Link (optional)')" />
+                            <x-text-input id="preview_link" class="block mt-1 w-full" type="url" name="preview_link"
+                                :value="old('preview_link', $book->preview_link)" />
+                            <x-input-error :messages="$errors->get('preview_link')" class="mt-2" />
+                        </div>
+
                         <div class="flex items-center justify-end gap-4">
-                            <a href="{{ route('admin.books.index') }}" class="text-gray-600 hover:text-gray-800">Cancel</a>
+                            <a href="{{ route('admin.books.index') }}"
+                                class="text-gray-600 hover:text-gray-800">Cancel</a>
                             <x-primary-button>
                                 {{ __('Update Book') }}
                             </x-primary-button>
@@ -53,4 +82,3 @@
         </div>
     </div>
 </x-app-layout>
-

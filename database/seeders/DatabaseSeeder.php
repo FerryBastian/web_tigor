@@ -22,9 +22,8 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // Seed books and about
+        // Seed about only (buku tidak lagi di-seed otomatis)
         $this->call([
-            BookSeeder::class,
             AboutSeeder::class,
         ]);
     }
